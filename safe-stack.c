@@ -15,27 +15,37 @@ int main(int argc, char **argv) {
 	if (getenv("SHELLCODE"))
 		strncpy((char *)code, getenv("SHELLCODE"), 0x1000);
 
-	printf("[+] main @ %llx\n", main);
-	printf("[+] printf @ %llx\n", printf);
-	printf("[+] buf @ %llx\n", buf);
-	printf("[+] code @ %llx\n", code);
+	printf("[+] main @ 0x%llx\n", main);
+	printf("[+] printf @ 0x%llx\n", printf);
+	printf("[+] buf @ 0x%llx\n", buf);
+	printf("[+] code @ 0x%llx\n", code);
 
 	write = (unsigned long *)buf;
 
 	for (;;) {
-		printf("[*] Write #%u\n", i++);
-		printf("[*] x:\n");
+		printf("[*] Read/Write #%u\n", i++);
+		printf("[*] write8 index:\n");
 		fgets(buf, sizeof(buf), stdin);
 		x = strtoul(buf, NULL, 0);
 
-		printf("[*] y:\n");
+		printf("[*] write8 value:\n");
 		fgets(buf, sizeof(buf), stdin);
 		y = strtoul(buf, NULL, 0);
 
 		if (x == 0xdeadbeef && y == 0xdeadbeef)
 			break;
 
+		printf("[+] write8 *0x%llx = 0x%llx\n", &write[x], y);
 		write[x] = y;
+
+		printf("[*] read8 index:\n");
+		fgets(buf, sizeof(buf), stdin);
+		x = strtoul(buf, NULL, 0);
+		printf("[+] read8 0x%llx: 0x%llx\n", &write[x], write[x]);
+
+		printf("[*] print str:\n");
+		fgets(buf, sizeof(buf), stdin);
+		printf(buf);
 	}
 
 	printf("[+] Returning from main...\n");

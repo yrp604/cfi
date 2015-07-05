@@ -35,11 +35,11 @@ int main(int argc, char **argv) {
 
 	t = new thing;
 
-	printf("[+] main @ %llx\n", main);
-	printf("[+] printf @ %llx\n", printf);
-	printf("[+] buf @ %llx\n", buf);
-	printf("[+] code @ %llx\n", code);
-	printf("[+] t @ %llx\n", t);
+	printf("[+] main @ 0x%llx\n", main);
+	printf("[+] printf @ 0x%llx\n", printf);
+	printf("[+] buf @ 0x%llx\n", buf);
+	printf("[+] code @ 0x%llx\n", code);
+	printf("[+] t @ 0x%llx\n", t);
 
 	write = (unsigned long *)buf;
 
@@ -56,7 +56,17 @@ int main(int argc, char **argv) {
 		if (x == 0xdeadbeef && y == 0xdeadbeef)
 			break;
 
+		printf("[+] write8 *0x%llx = 0x%llx\n", &write[x], y);
 		write[x] = y;
+
+		printf("[*] read8 index:\n");
+		fgets(buf, sizeof(buf), stdin);
+		x = strtoul(buf, NULL, 0);
+		printf("[+] read8 0x%llx: 0x%llx\n", &write[x], write[x]);
+
+		printf("[*] print str:\n");
+		fgets(buf, sizeof(buf), stdin);
+		printf(buf);
 	}
 
 	printf("[+] Calling t->fp()...\n");

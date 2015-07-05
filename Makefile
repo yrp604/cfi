@@ -1,4 +1,4 @@
-CFLAGS=-Wno-format -fPIE -pie -fstack-protector -Wl,-z,now -Wl,-z,relro
+CFLAGS=-Wno-unused-result -Wno-format -fPIE -pie -fstack-protector -Wl,-z,now -Wl,-z,relro -D_FORTIFY_SOURCE=2 -O2
 
 # Obviously this requires clang3.7
 all:
@@ -9,7 +9,7 @@ all:
 	clang++ $(CFLAGS) -flto -fsanitize=cfi,safe-stack cfi.cpp -o control-flow-safe-stack
 
 tarball: all
-	tar --exclude '.git' -vzcf ../cfi.tgz ../cfi
+	tar --exclude '.git' --exclude 'solutions' -vzcf ../cfi.tgz ../cfi
 	mv ../cfi.tgz .
 
 clean:
