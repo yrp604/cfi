@@ -2,6 +2,7 @@ CFLAGS=-Wno-unused-result -Wno-format -fPIE -pie -fstack-protector -Wl,-z,now -W
 
 # Obviously this requires clang3.7
 all:
+	clang $(CFLAGS) -fsanitize=safe-stack alloca.c -o alloca
 	clang $(CFLAGS) safe-stack.c -o safe-stack-plain
 	clang $(CFLAGS) -fsanitize=safe-stack safe-stack.c -o safe-stack
 	clang++ $(CFLAGS) -flto cfi.cpp -o control-flow-plain
@@ -14,6 +15,7 @@ tarball: all
 
 clean:
 	rm -f cfi.tgz
+	rm -f alloca
 	rm -f safe-stack-plain
 	rm -f safe-stack
 	rm -f control-flow-plain
