@@ -9,7 +9,7 @@ all:
 	clang++ $(CFLAGS) -flto -fsanitize=cfi,safe-stack cfi.cpp -o control-flow-safe-stack
 
 tarball: all
-	tar -vzcf ../cfi.tgz ../cfi
+	tar --exclude '.git' -vzcf ../cfi.tgz ../cfi
 	mv ../cfi.tgz .
 
 clean:

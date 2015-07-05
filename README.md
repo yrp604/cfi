@@ -4,6 +4,8 @@ Some binaries to play around with the new LLVM exploit mitigations. I figure not
 
 If there's anything you want me to add/remove, let me know and I'll try to hook it up.
  
+The tarball contains everything.
+
 Some notes:
 * -fsanitize=safe-stack seems to remove -fstack-protector
 * -fsanitize=cfi requires a LLVMgold.so which seems to require a current binutils
