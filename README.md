@@ -13,9 +13,7 @@ I'd suggest reading the Makefile.
 
 If there's anything you want me to add/remove, let me know (@yrp604 or email) and I'll try to hook it up.
  
-The tarball contains everything.
-
 Some notes:
-* `-fsanitize=safe-stack` seems to remove `-fstack-protector`
 * `-fsanitize=cfi` requires a `LLVMgold.so` which seems to require a current binutils
 * `-fsanitize=safe-stack` adds quite a bit of code to the resulting binaries
+* More detailed notes [here](https://gist.github.com/yrp604/70bd281dd04a982b0397).
