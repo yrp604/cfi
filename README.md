@@ -1,6 +1,14 @@
 # CFI and Safe Stack
 
-Some binaries to play around with the new LLVM exploit mitigations. I figure not everyone wants to complile llvm from svn. Binaries are just a basic 64-bit write-what-where loop with standard exploit mitigations enabled (relro, pie, cookies, nx).
+Some binaries to play around with the new LLVM exploit mitigations. I figure not everyone wants to complile LLVM from svn. Binaries are just a basic 64-bit write-what-where loop with standard exploit mitigations enabled (relro, pie, cookies, nx).
+
+* safe-stack: -fsanitize=safe-stack
+* safe-stack-plain: Same binary, without -fsanitize=safe-stack
+* control-flow: -fsanitize=cfi
+* control-flow-safe-stack: -fsanitize=cfi,safe-stack
+* control-flow-plain: Same binary, without either.
+
+I'd suggest reading the Makefile.
 
 If there's anything you want me to add/remove, let me know and I'll try to hook it up.
  
