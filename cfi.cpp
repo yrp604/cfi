@@ -7,19 +7,34 @@
 
 class obj {
 public:
-	virtual void fp() {
-		printf("[-] ?\n");
-	}
+	virtual void fp() { printf("[-] ?\n"); }
 };
 
-class thing : public obj
-{
+class thing : public obj {
 public:
-	void fp() {
-		printf("[-] :(\n");
-	}
+	virtual void fp() { printf("[-] :(\n"); }
 };
 
+class gadget : public thing  {
+public:
+	void fp() { printf("[-] !\n"); }
+};
+
+void doit_o(obj *o) {
+	char buf[20];
+	printf("%p\n", buf);
+	o->fp();
+}
+
+void doit_t(thing *t) {
+	puts("doit_t");
+	t->fp();
+}
+
+void doit_g(gadget *g) {
+	puts("doit_g");
+	g->fp();
+}
 
 int main(int argc, char **argv) {
 	char buf[20];
@@ -27,13 +42,17 @@ int main(int argc, char **argv) {
 	unsigned int i = 0;
 	unsigned long x, y, *write;
 	thing *t;
+	obj *o;
+	gadget *g;
 
 	code = mmap(NULL, 0x1000, PROT_EXEC | PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 
 	if (getenv("SHELLCODE"))
 		strncpy((char *)code, getenv("SHELLCODE"), 0x1000);
 
+	o = new obj;
 	t = new thing;
+	g = new gadget;
 
 	printf("[+] main @ 0x%llx\n", main);
 	printf("[+] printf @ 0x%llx\n", printf);
@@ -68,8 +87,15 @@ int main(int argc, char **argv) {
 		fgets(buf, sizeof(buf), stdin);
 		printf(buf);
 	}
+	printf("[+] Calling o->fp()...\n");
+	doit_o(o);
 
 	printf("[+] Calling t->fp()...\n");
+	doit_o(t);
+	doit_t(t);
 
-	t->fp();
+	printf("[+] Calling g->fp()...\n");
+	doit_o(g);
+	doit_t(g);
+	doit_g(g);
 }
